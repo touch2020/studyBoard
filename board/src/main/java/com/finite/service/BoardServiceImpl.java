@@ -29,4 +29,22 @@ public class BoardServiceImpl implements BoardService {
 		return dao.list();
 	}
 
+	@Override
+	public BoardVO select(int bno) {
+		// TODO Auto-generated method stub
+		return dao.select(bno);
+	}
+
+	@Override
+	public void update(BoardVO boardVO) {
+		// TODO Auto-generated method stub
+		dao.update(boardVO);
+	}
+
+	@Override
+	public void delete(int bno) {
+		// TODO Auto-generated method stub
+		dao.delete(bno);
+	}
+
 }
