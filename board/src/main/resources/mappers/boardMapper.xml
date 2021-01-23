@@ -9,8 +9,13 @@
    			 VALUES(JI_BOARD_SEQ.NEXTVAL, #{title},#{content},#{writer})
    </insert>
    <!--게시판 목록 쿼리  -->
-   <select id="list" resultType="com.finite.vo.BoardVO">
-   		SELECT BNO, TITLE, WRITER, REGDATE FROM JI_BOARD ORDER BY BNO DESC
+   <!-- 페이징 추가 -->
+   <select id="listPage" resultType="com.finite.vo.BoardVO" parameterType="com.finite.vo.BoardPage">
+   		SELECT BNO, TITLE, CONTENT, WRITER, REGDATE FROM (
+   		SELECT BNO, TITLE, CONTENT, WRITER, REGDATE, ROW_NUMBER()
+   		OVER(ORDER BY BNO DESC) AS RNUM FROM JI_BOARD)
+   		WHERE RNUM BETWEEN #{pageStart} AND #{pageEnd}
+   		ORDER BY BNO DESC
    	</select>
    	
    	<!--게시글 조회 쿼리  -->
@@ -28,5 +33,13 @@
    	<delete id="delete" parameterType="int">
    		DELETE FROM JI_BOARD WHERE BNO = #{bno}
    	</delete>
+   	
+   	<!-- 게시물 총 갯수 쿼리 -->
+   	<select id="listCount" resultType="int">
+   		<![CDATA[
+   			SELECT COUNT(BNO) FROM JI_BOARD WHERE BNO > 0
+   		]]>
+   	</select>
+   	
    	
 </mapper>

@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.finite.vo.BoardPage;
 import com.finite.vo.BoardVO;
 
 @Repository
@@ -22,9 +23,9 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 
 	@Override
-	public List<BoardVO> list() {
+	public List<BoardVO> list(BoardPage bp) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("boardMapper.list");
+		return sqlSession.selectList("boardMapper.listPage", bp);
 	}
 
 	@Override
@@ -44,6 +45,13 @@ public class BoardDAOImpl implements BoardDAO{
 	public void delete(int bno) {
 		// TODO Auto-generated method stub
 		sqlSession.delete("boardMapper.delete", bno);
+	}
+
+
+	@Override
+	public int listCount() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("boardMapper.listCount");
 	}
 
 }

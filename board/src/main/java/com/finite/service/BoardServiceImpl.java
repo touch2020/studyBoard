@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.finite.dao.BoardDAO;
+import com.finite.vo.BoardPage;
 import com.finite.vo.BoardVO;
 
 @Service
@@ -24,9 +25,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardVO> list() {
+	public List<BoardVO> list(BoardPage bp) {
 		// TODO Auto-generated method stub
-		return dao.list();
+		return dao.list(bp);
 	}
 
 	@Override
@@ -45,6 +46,12 @@ public class BoardServiceImpl implements BoardService {
 	public void delete(int bno) {
 		// TODO Auto-generated method stub
 		dao.delete(bno);
+	}
+
+	@Override
+	public int listCount() {
+		// TODO Auto-generated method stub
+		return dao.listCount();
 	}
 
 }

@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.finite.service.BoardService;
+import com.finite.vo.BoardPage;
 import com.finite.vo.BoardVO;
+import com.finite.vo.PageMaker;
 
 @Controller
 @RequestMapping("/board/")
@@ -37,10 +39,17 @@ public class BoardController {
 	}
 	//게시글 목록 리스트 조회
 	@RequestMapping(value="list" ,method = RequestMethod.GET)
-	public String list(Model model) {
+	public String list(Model model, BoardPage bp) {
 		logger.info("list");
 		
-		model.addAttribute("list", service.list());
+		model.addAttribute("list", service.list(bp));
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setBp(bp);
+		pageMaker.setTotalCount(service.listCount());
+		
+		model.addAttribute("pageMaker", pageMaker);
+		
 		
 		return "board/list";
 	}
